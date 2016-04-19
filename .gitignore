@@ -1,0 +1,6 @@
+# Visual Studio User Settings
+*.suo
+
+# Build Artifacts
+**/obj
+**/bin
