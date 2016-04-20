@@ -14,11 +14,16 @@
 ║ limitations under the License.                                             ║
 ╚═══════════════════════════════════════════════════════════════════════════*/
 
-using System.Reflection;
-
-// General Information about an assembly is controlled through the following
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-[assembly: AssemblyTitle("Common")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyTrademark("")]
+namespace Bytchin
+{
+    /// <summary>
+    /// Contact for an object that has a <see cref="Name"/> property.
+    /// </summary>
+    public interface INamed
+    {
+        /// <summary>
+        /// Gets the Name assigned to the object.
+        /// </summary>
+        string Name { get; }
+    }
+}

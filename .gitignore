@@ -8,3 +8,4 @@ BytchinAssemblyInfo.cs
 
 # Nuget Packages
 packages/**
+UpgradeLog*.htm
