@@ -4,3 +4,7 @@
 # Build Artifacts
 **/obj
 **/bin
+BytchinAssemblyInfo.cs
+
+# Nuget Packages
+packages/**

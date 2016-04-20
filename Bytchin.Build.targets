@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BytchinBuildFolder Condition="'$(BytchinBuildFolder)' == ''">.build</BytchinBuildFolder>
+    <MSBuildCommunityTasksPath>$(SolutionDir)$(BytchinBuildFolder)</MSBuildCommunityTasksPath>
+    <BytchinAssemblyInfoFile Condition="$(BytchinAssemblyInfoFile) == ''">$(SolutionDir)BytchinAssemblyInfo.cs</BytchinAssemblyInfoFile>
+    <VersionStringFile>$(SolutionDir)Version.txt</VersionStringFile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+
+  <Target Name="Clean_CommonAssemblyInfo" AfterTargets="CoreClean">
+    <Message Text="Cleaning Common Assemlby Info." />
+    <Delete Files="$(BytchinAssemblyInfoFile)" />
+  </Target>
+  
+  <Target Name="CommonAssemblyInfo"
+          Inputs="$(VersionStringFile)"
+          Outputs="$(BytchinAssemblyInfoFile)"
+          BeforeTargets="PrepareForBuild">
+    <Message Text="Updating Assembly Info $(BytchinAssemblyInfoFile)" />
+    <Message Text="Using $(VersionStringFile)" />
+
+    <MSBuild.Community.Tasks.Git.GitVersion LocalPath="$(SolutionDir)" Short="false" >
+      <Output TaskParameter="CommitHash" PropertyName="CommitHash" />
+    </MSBuild.Community.Tasks.Git.GitVersion>
+    <Message Text="Commit Hash: $(CommitHash)" />
+
+    <!-- Read version file -->
+    <PropertyGroup>
+      <VersionContentsString Condition="Exists('$(VersionStringFile)')">$([System.IO.File]::ReadAllText($(VersionStringFile)).Trim())</VersionContentsString>
+    </PropertyGroup>
+    <Error Condition="$(VersionContentsString) == ''" Text="Unable to read version information." />
+
+    <PropertyGroup>
+      <ProductVersion>$(VersionContentsString.Split('.')[0]).$(VersionContentsString.Split('.')[1])</ProductVersion>
+      <Revision>$(ProductVersion).$(VersionContentsString.Split('.')[2])</Revision>
+      <BuildNumber Condition="$(BuildNumber) == ''">0</BuildNumber>
+      <InformationalVersion>$(Revision).$(BuildNumber)+$(CommitHash)</InformationalVersion>
+    </PropertyGroup>
+
+    <MSBuild.Community.Tasks.AssemblyInfo
+              CodeLanguage="CS"
+              OutputFile="$(BytchinAssemblyInfoFile)"
+              AssemblyProduct="Bytchin Common Library"
+              AssemblyCompany="Bytchin"
+              AssemblyCopyright="Copyright (c) Bytchin $([System.DateTime]::Now.ToString(`yyyy`))"
+              AssemblyTrademark="$(AssemblyTrademark)"
+              AssemblyConfiguration="$(Configuration)"
+              NeutralResourcesLanguage="en"
+              AssemblyVersion="$(ProductVersion)"
+              AssemblyFileVersion="$(Revision)"
+              AssemblyInformationalVersion="$(InformationalVersion)"
+              ComVisible="true"
+              CLSCompliant="true" />
+  </Target>
+</Project>
