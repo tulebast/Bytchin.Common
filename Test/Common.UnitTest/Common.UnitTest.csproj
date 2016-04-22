@@ -2,17 +2,18 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\System.Runtime.InteropServices.Analyzers.1.0.1\build\System.Runtime.InteropServices.Analyzers.props" Condition="Exists('..\..\packages\System.Runtime.InteropServices.Analyzers.1.0.1\build\System.Runtime.InteropServices.Analyzers.props')" />
   <Import Project="..\..\packages\System.Runtime.Analyzers.1.0.1\build\System.Runtime.Analyzers.props" Condition="Exists('..\..\packages\System.Runtime.Analyzers.1.0.1\build\System.Runtime.Analyzers.props')" />
+  <Import Project="..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props" Condition="Exists('..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="$(MSBuildProjectDirectory)\..\..\Bytchin.Build.Targets" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{31520B93-FB0D-4238-BF8B-F08D7F4D361B}</ProjectGuid>
+    <ProjectGuid>{39B56E36-722A-4BC8-8256-11163421A272}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bytchin</RootNamespace>
-    <AssemblyName>Bytchin.Common</AssemblyName>
+    <RootNamespace>Bytchin.UnitTest</RootNamespace>
+    <AssemblyName>BytchinCommon.UnitTest</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -30,7 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Bytchin.Common.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\BytchinCommon.UnitTest.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,30 +40,37 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Bytchin.Common.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\BytchinCommon.UnitTest.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="..\..\Common.ruleset">
-      <Link>Properties\Common.ruleset</Link>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="INameable.cs" />
-    <Compile Include="INamed.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\BytchinAssemblyInfo.cs">
       <Link>Properties\BytchinAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\Version.txt">
-      <Link>Properties\Version.txt</Link>
-      <DependentUpon>BytchinAssemblyInfo.cs</DependentUpon>
-    </Content>
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.dotnet, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.1.0\lib\portable-net45+win8+wp8+wpa81\xunit.execution.dotnet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Common.ruleset">
+      <Link>Properties\Common.ruleset</Link>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Desktop.Analyzers.1.1.0\analyzers\dotnet\cs\Desktop.Analyzers.dll" />
@@ -79,11 +87,18 @@
     <Analyzer Include="..\..\packages\System.Security.Cryptography.Hashing.Algorithms.Analyzers.1.1.0\analyzers\dotnet\cs\System.Security.Cryptography.Hashing.Algorithms.Analyzers.dll" />
     <Analyzer Include="..\..\packages\System.Security.Cryptography.Hashing.Algorithms.Analyzers.1.1.0\analyzers\dotnet\cs\System.Security.Cryptography.Hashing.Algorithms.CSharp.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\Version.txt">
+      <Link>Properties\Version.txt</Link>
+      <DependentUpon>BytchinAssemblyInfo.cs</DependentUpon>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.core.2.1.0\build\portable-net45+win8+wp8+wpa81\xunit.core.props'))" />
     <Error Condition="!Exists('..\..\packages\System.Runtime.Analyzers.1.0.1\build\System.Runtime.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Runtime.Analyzers.1.0.1\build\System.Runtime.Analyzers.props'))" />
     <Error Condition="!Exists('..\..\packages\System.Runtime.InteropServices.Analyzers.1.0.1\build\System.Runtime.InteropServices.Analyzers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.Runtime.InteropServices.Analyzers.1.0.1\build\System.Runtime.InteropServices.Analyzers.props'))" />
   </Target>
